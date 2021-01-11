@@ -9,18 +9,19 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 43
+NUM_CATEGORIES = 3
 TEST_SIZE = 0.4
 
 
 def main():
 
     # Check command-line arguments
-    if len(sys.argv) not in [2, 3]:
-        sys.exit("Usage: python traffic.py data_directory [model.h5]")
+    #if len(sys.argv) not in [2, 3]:
+    #    sys.exit("Usage: python traffic.py data_directory [model.h5]")
 
     # Get image arrays and labels for all image files
-    images, labels = load_data(sys.argv[1])
+    #images, labels = load_data(sys.argv[1])
+    images, labels = load_data("small")
 
     # Split data into training and testing sets
     labels = tf.keras.utils.to_categorical(labels)
@@ -58,6 +59,22 @@ def load_data(data_dir):
     be a list of integer labels, representing the categories for each of the
     corresponding `images`.
     """
+    image_list = []
+    label_list = []
+    dim = (IMG_WIDTH, IMG_HEIGHT)
+    for i in range(NUM_CATEGORIES):
+        # Read every folder
+        folder = os.path.join(data_dir, str(i))
+        for root, dirs, files in os.walk(folder):
+            for file in files:
+                img = cv2.imread(os.path.join(data_dir, str(i), file), cv2.IMREAD_COLOR)   # reads an image in the BGR format
+                outresize = cv2.resize(img, dim, interpolation = cv2.INTER_AREA)
+                image_list.append( np.asarray(outresize))
+                label_list.append( i )
+
+
+
+    return (image_list, label_list)
     raise NotImplementedError
 
 
@@ -67,6 +84,9 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
+
+
+
     raise NotImplementedError
 
 
