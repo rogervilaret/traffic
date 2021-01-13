@@ -74,11 +74,7 @@ def load_data(data_dir):
                 if (prepared_image.shape[0] == IMG_WIDTH and prepared_image.shape[1] == IMG_HEIGHT and prepared_image.shape[2] == 3):
                     image_list.append( prepared_image)
                     label_list.append( i )
-                else:
-                    print("bad format!!")
-
-
-
+                
 
     return (image_list, label_list)
     raise NotImplementedError
@@ -115,11 +111,10 @@ def get_model():
         tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
 
         tf.keras.layers.Flatten(),
-
+        
         # Add a hidden layer with dropout
-        tf.keras.layers.Dense(256, activation="relu"),
+        tf.keras.layers.Dense(250, activation="relu"),
         tf.keras.layers.Dropout(0.5),
-
         
         # Add an output layer with output units for all 10 digits
         tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
